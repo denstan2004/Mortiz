@@ -1,24 +1,45 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Mortiz.DAL.Interfaces;
+using Mortiz.Domain.Entity;
 using System.Diagnostics;
 
 namespace Mortiz.Controllers
 {
+    [Route("api")]
     public class HomeController : Controller
     {
-     private readonly IClothesRepository _clothesRepository;
+        private readonly IBaseRepository<Clothes> _clothesRepository;
 
-        public HomeController(IClothesRepository clothesRepository)
+        public HomeController(IBaseRepository<Clothes> clothesRepository)
         {
             _clothesRepository = clothesRepository;
         }
 
+        [HttpGet("allClothes")]
         public async Task<IActionResult> IndexAsync()
         {
             var result = await _clothesRepository.SelectAll();
-            return View(result);
+            return Ok(result);
+        }
+        [HttpGet("Clothes/{id}")]
+        public  IActionResult GetOne(int id)
+        {
+            return Ok (_clothesRepository.Get(id));
+        }
+        [HttpPost]
+        [Route("Create")]
+        public IActionResult CreateClothes([FromBody]Clothes clothes) 
+        {
+            _clothesRepository.Create(clothes);
+            return Ok(200);
+           
+        }
+        [HttpPost("Delete/{id}")]
+        public IActionResult DeleteClothes(int id)
+        {
+            _clothesRepository.Delete(id);
+            return Ok();
         }
 
-    
     }
 }

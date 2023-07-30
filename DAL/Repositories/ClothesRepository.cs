@@ -14,19 +14,32 @@ namespace Mortiz.DAL.Repositories
             _context = context;
         }
 
-        public bool create(Clothes entity)
+        public bool Create(Clothes entity)
         {
-            throw new NotImplementedException();
+         
+                _context.Clothes.Add(entity);
+                _context.SaveChanges();
+                return true;
+         
         }
 
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            var itemToDelete = _context.Clothes.FirstOrDefault(x => x.Id == id);
+
+            if (itemToDelete != null)
+            {
+                _context.Clothes.Remove(itemToDelete);
+                _context.SaveChanges();
+                return true; 
+            }
+
+            return false; 
         }
 
         public Clothes Get(int id)
         {
-            throw new NotImplementedException();
+            return _context.Clothes.FirstOrDefault(x => x.Id == id);
         }
 
         public Task<List<Clothes>> SelectAll()

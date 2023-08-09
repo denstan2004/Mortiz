@@ -13,11 +13,11 @@ namespace Mortiz.DAL.Repositories
             _context = context;
         }
 
-        bool IBaseRepository<User>.Create(User entity)
+        void IBaseRepository<User>.Create(User entity)
         {
             _context.User.Add(entity);
             _context.SaveChanges();
-            return true;
+           
         }
 
         bool IBaseRepository<User>.Delete(int id)

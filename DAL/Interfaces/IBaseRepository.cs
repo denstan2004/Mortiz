@@ -2,8 +2,8 @@
 {
     public interface IBaseRepository<T>
     {
-        bool Create(T entity);
-        Task<List<T>> SelectAll();
+     void Create(T entity);
+      public  Task<List<T>> SelectAll();
         T Get(int id);
         bool Delete(int id);
 

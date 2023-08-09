@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Mortiz.DAL.Interfaces;
 using Mortiz.Domain.Entity;
-using System.Diagnostics;
 
 namespace Mortiz.Controllers
 {
@@ -22,17 +21,17 @@ namespace Mortiz.Controllers
             return Ok(result);
         }
         [HttpGet("Clothes/{id}")]
-        public  IActionResult GetOne(int id)
+        public IActionResult GetOne(int id)
         {
-            return Ok (_clothesRepository.Get(id));
+            return Ok(_clothesRepository.Get(id));
         }
         [HttpPost]
         [Route("Create")]
-        public IActionResult CreateClothes([FromBody]Clothes clothes) 
+        public IActionResult CreateClothes([FromBody] Clothes clothes)
         {
             _clothesRepository.Create(clothes);
             return Ok(200);
-           
+
         }
         [HttpPost("Delete/{id}")]
         public IActionResult DeleteClothes(int id)

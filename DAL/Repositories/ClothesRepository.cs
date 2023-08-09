@@ -14,12 +14,12 @@ namespace Mortiz.DAL.Repositories
             _context = context;
         }
 
-        public bool Create(Clothes entity)
+        public void Create(Clothes entity)
         {
          
                 _context.Clothes.Add(entity);
                 _context.SaveChanges();
-                return true;
+                
          
         }
 

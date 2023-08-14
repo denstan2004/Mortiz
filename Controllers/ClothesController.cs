@@ -5,17 +5,17 @@ using Mortiz.Domain.Entity;
 namespace Mortiz.Controllers
 {
     [Route("api")]
-    public class HomeController : Controller
+    public class ClothesController : Controller
     {
         private readonly IBaseRepository<Clothes> _clothesRepository;
 
-        public HomeController(IBaseRepository<Clothes> clothesRepository)
+        public ClothesController(IBaseRepository<Clothes> clothesRepository)
         {
             _clothesRepository = clothesRepository;
         }
 
         [HttpGet("allClothes")]
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> AllClothes()
         {
             var result = await _clothesRepository.SelectAll();
             return Ok(result);

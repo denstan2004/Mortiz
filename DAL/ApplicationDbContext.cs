@@ -13,6 +13,7 @@ namespace Mortiz.DAL
 
         public DbSet<User> User { get; set; }
         public DbSet<Clothes> Clothes { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
     }
 }

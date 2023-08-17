@@ -91,6 +91,7 @@ namespace Mortiz.Services.Implementation
                         Email = model.Email,
                         Password = HashPasswordHelper.HashPassowrd(model.Password),
                         Role = Roles.User,
+                        Basket = new List<int>()
                     };
                      _userRepository.Create(user);
                   var result =  Authenticate(user);

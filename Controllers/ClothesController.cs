@@ -25,6 +25,9 @@ namespace Mortiz.Controllers
         {
             return Ok(_clothesRepository.Get(id));
         }
+
+
+        //-------------------------------  admin panel below
         [HttpPost]
         [Route("Create")]
         public IActionResult CreateClothes([FromBody] Clothes clothes)

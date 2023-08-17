@@ -7,6 +7,7 @@ using System.Security.Claims;
 
 namespace Mortiz.Controllers
 {
+   
 
     public class AccountController : Controller
     {
@@ -30,8 +31,7 @@ namespace Mortiz.Controllers
                 {
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(response.Data));
-
-                    return RedirectToAction("IndexAsync", "Home");
+                    return Ok(200);
                 }
                 ModelState.AddModelError("", response.Description);
             }
@@ -42,7 +42,7 @@ namespace Mortiz.Controllers
         public IActionResult Login() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login([FromBody]LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -52,18 +52,19 @@ namespace Mortiz.Controllers
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(response.Data));
 
-                    return RedirectToAction("IndexAsync", "Home");
+                    return Ok(200);
                 }
                 ModelState.AddModelError("", response.Description);
             }
-            return View(model);
+            return BadRequest(300);
+
         }
 
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("IndexAsync", "Home");
         }
 /*
         [HttpPost]

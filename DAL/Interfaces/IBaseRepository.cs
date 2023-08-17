@@ -4,8 +4,8 @@
     {
      void Create(T entity);
       public  Task<List<T>> SelectAll();
-        T Get(int id);
-        bool Delete(int id);
-
+      T Get(int id);
+      bool Delete(int id);
+  
     }
 }

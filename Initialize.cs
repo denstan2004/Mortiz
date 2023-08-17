@@ -14,6 +14,7 @@ namespace Mortiz
         {
             services.AddScoped<IBaseRepository<Clothes>, ClothesRepository>();
             services.AddScoped<IBaseRepository<User>, UserRepository>();
+           // services.AddScoped<IBaseRepository<Order>, OrderRepository>();
 
         }
         public static void InitializeServices(this IServiceCollection services)

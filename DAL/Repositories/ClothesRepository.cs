@@ -22,6 +22,12 @@ namespace Mortiz.DAL.Repositories
                 
          
         }
+        public void Update(Clothes entity, int id) 
+        {
+            _context.Remove(id);
+            _context.Add(entity);
+            _context.SaveChanges();
+        }
 
         public bool Delete(int id)
         {

@@ -11,6 +11,6 @@
 
         public string MiddleName { get; set; }
         public string Telephone { get; set; }
-        public bool Checked { get; set; } 
+       
     }
 }

@@ -15,7 +15,7 @@ namespace Mortiz.DAL.Repositories
           
             _context = context;
         }
-        public void CreateOrderList(List<int> orderList, OrderListViewModel orderListViewModel)
+        public void CreateOrderList(List<int> orderList, OrderListViewModel orderListViewModel, int Userid)
         {
             Order order = new Order();
             for (int i = 0; i <orderList.Capacity; i++)
@@ -25,6 +25,7 @@ namespace Mortiz.DAL.Repositories
                 order.Telephone = orderListViewModel.Telephone;
                 order.Checked = false;
                 order.ClothId = orderList[i];
+                order.UserId = Userid;
                 order.LastName= orderListViewModel.LastName;
                 order.MiddleName = orderListViewModel.MiddleName;
                 order.FirstName = orderListViewModel.FirstName;
@@ -32,6 +33,21 @@ namespace Mortiz.DAL.Repositories
             }
             _context.SaveChanges();
 
+        }
+        public void CreateSingleOrder(OrderListViewModel orderModel, int userId,int clotheId)
+        {
+            Order order=new Order();
+            order.UserId = userId;
+            order.Checked = false;
+            order.ClothId= clotheId;
+            order.DateCreated = DateTime.Now;
+            order.Address = orderModel.Address;
+            order.Telephone = orderModel.Telephone;
+            order.LastName = orderModel.LastName;
+            order.MiddleName = orderModel.MiddleName;
+            order.FirstName = orderModel.FirstName;
+            _context.Orders.Add(order);
+            _context.SaveChanges();
         }
         public void CheckOrder(Order order)
         {
@@ -41,15 +57,6 @@ namespace Mortiz.DAL.Repositories
             _context.SaveChanges();
 
         }
-        public void Create(Order order, int userId)
-        {
-            order.UserId=userId;
-            order.Checked = false;
-            order.DateCreated = DateTime.Now;
-            _context.Orders.Add(order);
-            _context.SaveChanges();
-        }
-
         public bool Delete(int id)
         {
 
@@ -65,6 +72,8 @@ namespace Mortiz.DAL.Repositories
             return false;
         }
 
+
+
         public Order Get(int id)
         {
             return _context.Orders.FirstOrDefault(x => x.Id == id);
@@ -75,6 +84,13 @@ namespace Mortiz.DAL.Repositories
         {
             return _context.Orders.ToListAsync();
 
+
+        }
+        public Task<List<Order>> SelectAllForUser(int userId)
+        {
+            return _context.Orders
+                .Where(order => order.UserId == userId)
+                .ToListAsync();
         }
 
         public void Create(Order entity)

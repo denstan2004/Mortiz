@@ -43,6 +43,17 @@ namespace Mortiz.DAL.Repositories
             return false; 
         }
 
+        public List<Clothes> SelectAllFromUser(List<int> clothesId)
+        {
+            List<Clothes> clothes = new List<Clothes>();
+           for(int i=0; i<clothesId.Count; i++)
+            {
+                clothes.Add(Get(clothesId[i]));
+            }
+            return clothes; ;
+
+        }
+
         public Clothes Get(int id)
         {
             return _context.Clothes.FirstOrDefault(x => x.Id == id);

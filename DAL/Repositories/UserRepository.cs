@@ -43,5 +43,12 @@ namespace Mortiz.DAL.Repositories
         {
             return _context.User.ToListAsync();
         }
+
+     public   User GetByName(String name)
+        {
+            return _context.User.FirstOrDefault(x => x.Name == name);
+        }
+
+
     }
 }

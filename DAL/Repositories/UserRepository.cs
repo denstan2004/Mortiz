@@ -12,7 +12,7 @@ namespace Mortiz.DAL.Repositories
         {
             _context = context;
         }
-
+      
         void IBaseRepository<User>.Create(User entity)
         {
             _context.User.Add(entity);

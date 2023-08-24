@@ -21,6 +21,7 @@ namespace Mortiz.Controllers
             this.userRepository = userRepository;
         }
 
+        [HttpGet("/getAll/Clothes")]
         public Task<List<Clothes>> GetAllClothesFromUser()
        {
             var user = HttpContext.User;
@@ -31,15 +32,6 @@ namespace Mortiz.Controllers
         }
 
 
-        public void createOrders(List<int> clothesList, OrderListViewModel orderListViewModel)
-        {
-
-            var user = HttpContext.User;
-            var userName = user.FindFirstValue(ClaimsIdentity.DefaultNameClaimType);
-            User User = userRepository.GetByName(userName);
-            orderRepository.CreateOrderList(clothesList, orderListViewModel,User.Id);
-            if(User.Basket != null) { User.Basket.Clear(); }
-        }
      
        
     }

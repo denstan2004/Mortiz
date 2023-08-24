@@ -7,7 +7,7 @@ namespace Mortiz.DAL.Repositories
 {
     public class OrderRepository 
     {
-        private readonly IBaseRepository<Order> _orderRepository;
+        private readonly OrderRepository _orderRepository;
         private readonly ApplicationDbContext _context;
 
         public OrderRepository(ApplicationDbContext context)
@@ -72,6 +72,13 @@ namespace Mortiz.DAL.Repositories
             return false;
         }
 
+        public void CheckOrder(int id)
+        {
+            Order order =_orderRepository.Get(id);
+            order.Checked= true;
+            _context.Update(order);
+            _context.SaveChanges();
+        }
 
 
         public Order Get(int id)

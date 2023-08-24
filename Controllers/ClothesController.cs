@@ -11,11 +11,11 @@ namespace Mortiz.Controllers
     [Route("api")]
     public class ClothesController : Controller
     {
-        private readonly IBaseRepository<Clothes> _clothesRepository;
+        private readonly ClothesRepository _clothesRepository;
         private readonly UserRepository _useRepository;
         private readonly OrderRepository orderRepository;
 
-        public ClothesController(IBaseRepository<Clothes> clothesRepository,UserRepository useRepository, OrderRepository orderRepository)
+        public ClothesController(ClothesRepository clothesRepository, UserRepository useRepository, OrderRepository orderRepository)
         {
             _clothesRepository = clothesRepository;
             _useRepository = useRepository;
@@ -34,7 +34,7 @@ namespace Mortiz.Controllers
             return Ok(_clothesRepository.Get(id));
         }
 
-
+        [HttpPost("/addToFavourite/{id}")]
         public void addToFavourite(int id)
         {
 
@@ -43,37 +43,17 @@ namespace Mortiz.Controllers
             var User = _useRepository.GetByName(userName);
             User.Basket.Add(id);
         }
+        [HttpGet("get/all/categories")]
+        public List<String> GetAllCategories()
+            {
+              return _clothesRepository.GetAllCategories();
 
-        public void SingleOrder(OrderListViewModel orderListViewModel, int Clotheid)
+            }
+        [HttpGet("get/all/from/category")]
+        public List<Clothes> GetAllFromCategories(String category)
         {
-            var user = HttpContext.User;
-            var userName = user.FindFirstValue(ClaimsIdentity.DefaultNameClaimType);
-            var User = _useRepository.GetByName(userName);
-            orderRepository.CreateSingleOrder(orderListViewModel, User.Id, Clotheid);
-            
+            return _clothesRepository.FindALLFromCategory(category) ;
 
         }
-
-
-
-
-
-
-        //-------------------------------  admin panel below
-        [HttpPost]
-        [Route("Create")]
-        public IActionResult CreateClothes([FromBody] Clothes clothes)
-        {
-            _clothesRepository.Create(clothes);
-            return Ok(200);
-
-        }
-        [HttpPost("Delete/{id}")]
-        public IActionResult DeleteClothes(int id)
-        {
-            _clothesRepository.Delete(id);
-            return Ok();
-        }
-
     }
 }

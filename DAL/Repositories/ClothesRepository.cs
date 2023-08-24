@@ -24,10 +24,9 @@ namespace Mortiz.DAL.Repositories
         }
         public void Update(Clothes entity, int id) 
         {
-            _context.Remove(id);
-            _context.Add(entity);
+            Clothes item = _context.Clothes.FirstOrDefault().;
             _context.SaveChanges();
-        }
+        } //змінити на оновлення
 
         public bool Delete(int id)
         {
@@ -53,7 +52,22 @@ namespace Mortiz.DAL.Repositories
             return clothes; ;
 
         }
-
+        public List<Clothes> FindALLFromCategory (String  category)
+        {
+            List<Clothes> clothes = _context.Clothes.Where(x => x.Type == category).ToList();
+            return clothes;
+        }
+        public List<String> GetAllCategories()
+        {
+            List<String> category= new List<string> ();
+            List<Clothes> clothes = _context.Clothes.ToList();
+            for(int i=0; i<clothes.Count; i++)
+            {
+                if(category== null ) { category.Add(clothes[i].Type); }
+                else if (category.Contains(clothes[i].Type)==false) { category.Add(clothes[i].Type); }
+            }
+            return category;
+        }
         public Clothes Get(int id)
         {
             return _context.Clothes.FirstOrDefault(x => x.Id == id);

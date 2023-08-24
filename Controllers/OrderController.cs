@@ -1,0 +1,43 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Mortiz.DAL.Interfaces;
+using Mortiz.DAL.Repositories;
+using Mortiz.Domain.Entity;
+using Mortiz.Domain.ViewModel;
+using System.Security.Claims;
+
+namespace Mortiz.Controllers
+{
+    public class OrderController : Controller
+    {
+        private readonly IBaseRepository<Clothes> _clothesRepository;
+        private readonly UserRepository _userRepository;
+        private readonly OrderRepository orderRepository;
+
+        public OrderController(IBaseRepository<Clothes> clothesRepository, UserRepository useRepository, OrderRepository orderRepository)
+        {
+            _clothesRepository = clothesRepository;
+            _userRepository = useRepository;
+            this.orderRepository = orderRepository;
+        }
+
+
+        public void SingleOrder(OrderListViewModel orderListViewModel, int Clotheid)
+        {
+            var user = HttpContext.User;
+            var userName = user.FindFirstValue(ClaimsIdentity.DefaultNameClaimType);
+            var User = _userRepository.GetByName(userName);
+            orderRepository.CreateSingleOrder(orderListViewModel, User.Id, Clotheid);
+        }
+
+        public void createOrders(List<int> clothesList, OrderListViewModel orderListViewModel)
+        {
+
+            var user = HttpContext.User;
+            var userName = user.FindFirstValue(ClaimsIdentity.DefaultNameClaimType);
+            User User = _userRepository.GetByName(userName);
+            orderRepository.CreateOrderList(clothesList, orderListViewModel, User.Id);
+            if (User.Basket != null) { User.Basket.Clear(); }
+        }
+
+    }
+}

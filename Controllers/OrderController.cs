@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Mortiz.DAL.Interfaces;
 using Mortiz.DAL.Repositories;
 using Mortiz.Domain.Entity;
@@ -7,6 +8,7 @@ using System.Security.Claims;
 
 namespace Mortiz.Controllers
 {
+    [Route("Order")]
     public class OrderController : Controller
     {
         private readonly IBaseRepository<Clothes> _clothesRepository;
@@ -20,22 +22,34 @@ namespace Mortiz.Controllers
             this.orderRepository = orderRepository;
         }
 
+      //  [HttpPost("/singleOrder/{Clotheid}")]
+       // public void SingleOrder([FromBody] OrderListViewModel orderListViewModel, int Clotheid)
+      //  {
+      //      var user = HttpContext.User;
+      //      var userName = user.FindFirstValue(ClaimsIdentity.DefaultNameClaimType);
+     //       var User = _userRepository.GetByName(userName);
+     //       orderRepository.CreateSingleOrder(orderListViewModel, User.Id, Clotheid);
+     //   }
+        [HttpPost("singleOrder")]
+        [Authorize]
+        public void SingleOrder([FromBody] OrderActionData data)
 
-        public void SingleOrder(OrderListViewModel orderListViewModel, int Clotheid)
         {
             var user = HttpContext.User;
             var userName = user.FindFirstValue(ClaimsIdentity.DefaultNameClaimType);
             var User = _userRepository.GetByName(userName);
-            orderRepository.CreateSingleOrder(orderListViewModel, User.Id, Clotheid);
+            orderRepository.CreateSingleOrder(data.OrderListViewModel, User.Id, data.Clotheid);
         }
 
-        public void createOrders(List<int> clothesList, OrderListViewModel orderListViewModel)
+        [HttpPost("OrderList")]
+        [Authorize]
+        public void createOrders([FromBody] OrderActionData data)
         {
 
             var user = HttpContext.User;
             var userName = user.FindFirstValue(ClaimsIdentity.DefaultNameClaimType);
             User User = _userRepository.GetByName(userName);
-            orderRepository.CreateOrderList(clothesList, orderListViewModel, User.Id);
+            orderRepository.CreateOrderList(data.ClothesList, data.OrderListViewModel, User.Id);
             if (User.Basket != null) { User.Basket.Clear(); }
         }
 

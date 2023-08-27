@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Mortiz.DAL;
 using Mortiz.DAL.Interfaces;
 using Mortiz.DAL.Repositories;
@@ -8,7 +9,7 @@ using System.Security.Claims;
 
 namespace Mortiz.Controllers
 {
-    [Route("api")]
+    [Route("Clothes")]
     public class ClothesController : Controller
     {
         private readonly ClothesRepository _clothesRepository;
@@ -34,7 +35,8 @@ namespace Mortiz.Controllers
             return Ok(_clothesRepository.Get(id));
         }
 
-        [HttpPost("/addToFavourite/{id}")]
+        [HttpPost("addToFavourite/{id}")]
+        [Authorize]
         public void addToFavourite(int id)
         {
 
@@ -55,5 +57,15 @@ namespace Mortiz.Controllers
             return _clothesRepository.FindALLFromCategory(category) ;
 
         }
+
+        [HttpGet("auth")]
+        public IActionResult authcheck()
+        {
+           if(HttpContext.User.Identity.IsAuthenticated)
+            { return Ok(200); }
+            else { return BadRequest(300); }
+        }
+
+
     }
 }

@@ -14,14 +14,18 @@ namespace Mortiz
         {
             services.AddScoped<IBaseRepository<Clothes>, ClothesRepository>();
             services.AddScoped<IBaseRepository<User>, UserRepository>();
-           // services.AddScoped<IBaseRepository<Order>, OrderRepository>();
+            // services.AddScoped<IBaseRepository<Order>, OrderRepository>();
+            services.AddScoped<ClothesRepository>();
+            services.AddScoped<OrderRepository>();
+
+            services.AddScoped<UserRepository>();
 
         }
         public static void InitializeServices(this IServiceCollection services)
         {
            
             services.AddScoped<IAccountService, AccountService>();
-           
+
         }
     }
 }

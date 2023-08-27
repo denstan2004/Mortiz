@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Mortiz.DAL.Interfaces;
 using Mortiz.Domain.Entity;
+using Mortiz.Domain.ViewModel;
+using System.Linq;
 
 namespace Mortiz.DAL.Repositories
 {
@@ -22,11 +24,22 @@ namespace Mortiz.DAL.Repositories
                 
          
         }
-        public void Update(Clothes entity, int id) 
+     
+        public void Update(UpdateClotheModel updatedEntity, int id) 
         {
-            Clothes item = _context.Clothes.FirstOrDefault().;
+            Clothes clothe = _context.Clothes.FirstOrDefault(x => x.Id == id);
+            if (clothe != null)
+            {
+                clothe.Price = updatedEntity.Price;
+                clothe.Material= updatedEntity.Material;
+                clothe.Description= updatedEntity.Description;
+                clothe.Name= updatedEntity.Name;
+                clothe.Photos= updatedEntity.Photos;
+                clothe.Type= updatedEntity.Type;
+            }
+           _context.Clothes.Update(clothe);
             _context.SaveChanges();
-        } //змінити на оновлення
+        } 
 
         public bool Delete(int id)
         {

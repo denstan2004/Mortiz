@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Domain.Enum;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Mortiz.DAL.Interfaces;
 using Mortiz.DAL.Repositories;
 using Mortiz.Domain.Entity;
+using Mortiz.Domain.ViewModel;
 
 namespace Mortiz.Controllers
 {
+    [Route("Admin")]
     public class AdminController : Controller
     {
 
@@ -17,8 +21,8 @@ namespace Mortiz.Controllers
             _orderRepository = orderRepository;
            
         }
-        [HttpPost]
-        [Route("Create")]
+        [HttpPost("Create")]
+        [Authorize(Roles = "admin")]
         public IActionResult CreateClothes([FromBody] Clothes clothes)
         {
             _clothesRepository.Create(clothes);
@@ -26,6 +30,7 @@ namespace Mortiz.Controllers
 
         }
         [HttpPost("Delete/{id}")]
+        [Authorize(Roles = "admin")]
         public void DeleteClothes(int id)
         {
             _clothesRepository.Delete(id);
@@ -33,14 +38,17 @@ namespace Mortiz.Controllers
 
 
         [HttpPost ("checkClothe/{id}")]
+        [Authorize(Roles = "admin")]
         public void CheckOrder(int id) 
         {
             _orderRepository.CheckOrder(id);         
         }
         [HttpPatch ("update")]
-        public Clothes Update (int id, Clothes updatedItem)
+        [Authorize(Roles = "admin")]
+        public void Update (int id, UpdateClotheModel updatedItem)
         {
 
+            _clothesRepository.Update(updatedItem,id );
         }
 
     }// контроллери під оновлення речі

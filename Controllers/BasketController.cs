@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Mortiz.DAL.Interfaces;
 using Mortiz.DAL.Repositories;
 using Mortiz.Domain.Entity;
@@ -8,6 +9,7 @@ using System.Security.Claims;
 
 namespace Mortiz.Controllers
 {
+    [Route("Basket")]
     public class BasketController : Controller
     {
         private readonly OrderRepository orderRepository;
@@ -21,7 +23,8 @@ namespace Mortiz.Controllers
             this.userRepository = userRepository;
         }
 
-        [HttpGet("/getAll/Clothes")]
+        [HttpGet("getAll/Clothes")]
+        [Authorize]
         public Task<List<Clothes>> GetAllClothesFromUser()
        {
             var user = HttpContext.User;

@@ -18,8 +18,7 @@ namespace Mortiz.Controllers
             _accountService = accountService;
         }
 
-        [HttpGet]
-        public IActionResult Register() => View();
+       
 
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
@@ -38,8 +37,7 @@ namespace Mortiz.Controllers
             return BadRequest(300);
         }
 
-        [HttpGet]
-        public IActionResult Login() => View();
+       
 
         [HttpPost]
         public async Task<IActionResult> Login([FromBody]LoginViewModel model)

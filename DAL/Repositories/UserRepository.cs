@@ -20,6 +20,13 @@ namespace Mortiz.DAL.Repositories
            
         }
 
+
+      public   void Update (User user)
+        {
+            _context.Update(user);
+         _context.SaveChanges();
+        }
+
         bool IBaseRepository<User>.Delete(int id)
         {
             var itemToDelete = _context.User.FirstOrDefault(x => x.Id == id);

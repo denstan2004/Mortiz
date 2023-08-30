@@ -24,10 +24,11 @@ namespace Mortiz.DAL.Repositories
                 
          
         }
-     
+        // Clothes updatedItem = new Clothes()
         public void Update(UpdateClotheModel updatedEntity, int id) 
         {
             Clothes clothe = _context.Clothes.FirstOrDefault(x => x.Id == id);
+           
             if (clothe != null)
             {
                 clothe.Price = updatedEntity.Price;

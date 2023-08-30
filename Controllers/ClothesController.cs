@@ -29,7 +29,7 @@ namespace Mortiz.Controllers
             var result = await _clothesRepository.SelectAll();
             return Ok(result);
         }
-        [HttpGet("Clothes/{id}")]
+        [HttpGet("{id}")]
         public IActionResult GetOne(int id)
         {
             return Ok(_clothesRepository.Get(id));
@@ -44,6 +44,7 @@ namespace Mortiz.Controllers
             var userName = user.FindFirstValue(ClaimsIdentity.DefaultNameClaimType);
             var User = _useRepository.GetByName(userName);
             User.Basket.Add(id);
+            _useRepository.Update(User);
         }
         [HttpGet("get/all/categories")]
         public List<String> GetAllCategories()
@@ -51,20 +52,15 @@ namespace Mortiz.Controllers
               return _clothesRepository.GetAllCategories();
 
             }
-        [HttpGet("get/all/from/category")]
-        public List<Clothes> GetAllFromCategories(String category)
+        [HttpGet("get/all/from/{category}")]
+        public List<Clothes> GetAllFromCategories(string category)
         {
+            
             return _clothesRepository.FindALLFromCategory(category) ;
 
         }
 
-        [HttpGet("auth")]
-        public IActionResult authcheck()
-        {
-           if(HttpContext.User.Identity.IsAuthenticated)
-            { return Ok(200); }
-            else { return BadRequest(300); }
-        }
+       
 
 
     }

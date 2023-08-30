@@ -45,7 +45,7 @@ namespace Mortiz.Controllers
         [Authorize]
         public void createOrders([FromBody] OrderActionData data)
         {
-
+            Console.WriteLine(data.ClothesList);
             var user = HttpContext.User;
             var userName = user.FindFirstValue(ClaimsIdentity.DefaultNameClaimType);
             User User = _userRepository.GetByName(userName);

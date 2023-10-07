@@ -12,8 +12,8 @@ namespace Mortiz.Controllers
     public class AdminController : Controller
     {
 
-        private readonly ClothesRepository _clothesRepository;
-        private readonly OrderRepository _orderRepository;
+        private  ClothesRepository _clothesRepository;
+        private  OrderRepository _orderRepository;
 
         public AdminController(ClothesRepository clothesRepository, OrderRepository orderRepository)
         {
@@ -22,7 +22,7 @@ namespace Mortiz.Controllers
            
         }
         [HttpPost("Create")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult CreateClothes([FromBody] Clothes clothes)
         {
             _clothesRepository.Create(clothes);
@@ -30,26 +30,27 @@ namespace Mortiz.Controllers
 
         }
         [HttpPost("Delete/{id}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public void DeleteClothes(int id)
         {
             _clothesRepository.Delete(id);
         }
 
 
-        [HttpPost ("checkClothe/{id}")]
-        [Authorize(Roles = "admin")]
+        [HttpPost ("checkOrder/{id}")]
+        [Authorize(Roles = "Admin")]  
         public void CheckOrder(int id) 
         {
             _orderRepository.CheckOrder(id);         
         }
         [HttpPatch ("update")]
-        [Authorize(Roles = "admin")]
-        public void Update (int id, UpdateClotheModel updatedItem)
-        {
+        [Authorize(Roles = "Admin")]
+        public void Update ( [FromBody] UpdateClotheModel updatedItem)
+         {
 
-            _clothesRepository.Update(updatedItem,id );
+            _clothesRepository.Update(updatedItem,updatedItem.id );
+            
         }
 
-    }// контроллери під оновлення речі
+    }
 }

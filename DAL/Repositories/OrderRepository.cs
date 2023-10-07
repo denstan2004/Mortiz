@@ -17,30 +17,30 @@ namespace Mortiz.DAL.Repositories
         }
         public void CreateOrderList(List<int> orderList, OrderListViewModel orderListViewModel, int Userid)
         {
-            Order order = new Order();
-            for (int i = 0; i <orderList.Capacity; i++)
+            for (int i = 0; i < orderList.Count; i++)
             {
+                Order order = new Order();
                 order.Address = orderListViewModel.Address;
-                order.DateCreated = DateTime.Now;
+                order.DateCreated = DateTime.UtcNow; // Перетворення на UTC
                 order.Telephone = orderListViewModel.Telephone;
                 order.Checked = false;
                 order.ClothId = orderList[i];
                 order.UserId = Userid;
-                order.LastName= orderListViewModel.LastName;
+                order.LastName = orderListViewModel.LastName;
                 order.MiddleName = orderListViewModel.MiddleName;
                 order.FirstName = orderListViewModel.FirstName;
                 _context.Add(order);
             }
             _context.SaveChanges();
-
         }
-        public void CreateSingleOrder(OrderListViewModel orderModel, int userId,int clotheId)
+
+        public void CreateSingleOrder(OrderListViewModel orderModel, int userId, int clotheId)
         {
-            Order order=new Order();
+            Order order = new Order();
             order.UserId = userId;
             order.Checked = false;
-            order.ClothId= clotheId;
-            order.DateCreated = DateTime.Now;
+            order.ClothId = clotheId;
+            order.DateCreated = DateTime.UtcNow; // Перетворення на UTC
             order.Address = orderModel.Address;
             order.Telephone = orderModel.Telephone;
             order.LastName = orderModel.LastName;
@@ -49,6 +49,7 @@ namespace Mortiz.DAL.Repositories
             _context.Orders.Add(order);
             _context.SaveChanges();
         }
+
         public void CheckOrder(Order order)
         {
             _context.Remove(((int)order.Id));
@@ -74,7 +75,7 @@ namespace Mortiz.DAL.Repositories
 
         public void CheckOrder(int id)
         {
-            Order order =_orderRepository.Get(id);
+            Order order = _context.Orders.FirstOrDefault(x => x.Id == id);
             order.Checked= true;
             _context.Update(order);
             _context.SaveChanges();

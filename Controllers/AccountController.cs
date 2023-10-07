@@ -18,7 +18,25 @@ namespace Mortiz.Controllers
             _accountService = accountService;
         }
 
-       
+        [HttpGet("auth")]
+        public IActionResult Authcheck()
+        {
+            var user = HttpContext.User;
+            if (user.Identity.IsAuthenticated)
+            {
+                var roles = user.Claims
+                                .Where(c => c.Type == ClaimTypes.Role)
+                                .Select(c => c.Value)
+                                .ToList();
+
+                if (roles.Contains("Admin"))
+                {
+                    return Ok("Admin");
+                }
+                else { return Ok("User"); }
+            }
+            else { return BadRequest(); }
+        }
 
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
